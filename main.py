@@ -1,4 +1,6 @@
-def hello():
-    print("hello");
+import pygame
 
-hello()
+# start pygame op
+pygame.init()
+
+scherm = pygame.display.set_mode((800, 800))
