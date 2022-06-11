@@ -4,8 +4,8 @@ import os
 # start pygame op
 pygame.init()
 
-schermBreete = 800
-schermHoogte = 800
+schermBreete = 600
+schermHoogte = 600
 
 #maakt het scherm en bepaald de groote
 scherm = pygame.display.set_mode((schermBreete, schermHoogte))
@@ -15,30 +15,19 @@ pygame.display.set_caption("Pandora's puzzels")
 
 
 FPS = 60
-SNELHEID = 3
+Stap = 100
 
 wit = 255, 255, 255
 
-characterGroote = 160, 160
+characterGroote = 100, 100
 
-achtergrondfoto = pygame.image.load(os.path.join('achtergronden', 'achtergrond.jpg'))
+achtergrondfoto = pygame.image.load(os.path.join('achtergronden', 'kamer1.jpg'))
 achtergrond = pygame.transform.scale(achtergrondfoto, (schermBreete, schermHoogte))
 
 kamer1 = pygame.transform.scale(pygame.image.load(os.path.join('achtergronden', 'kamer1.jpg')),
                                 (schermBreete, schermHoogte))
 
-character = pygame.transform.scale(pygame.image.load(os.path.join('character', 'c1.gif')), (characterGroote))
-
-
-def charBeweging(toets, charac):
-    if toets[pygame.K_LEFT]:  # links
-        charac.x -= SNELHEID
-    if toets[pygame.K_DOWN]:  # beneden
-        charac.y += SNELHEID
-    if toets[pygame.K_RIGHT]:  # rechts
-        charac.x += SNELHEID
-    if toets[pygame.K_UP]:  # boven
-        charac.y -= SNELHEID
+character = pygame.transform.scale(pygame.image.load(os.path.join('character', 'c1.jpg')), (characterGroote))
 
 def scherm_updaten(charac):
     scherm.fill(wit)
@@ -56,9 +45,20 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 aan = False
-        toets = pygame.key.get_pressed()
-        charBeweging(toets, charac)
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT and charac.x > 0:
+                    charac.x -= Stap
+                if event.key == pygame.K_RIGHT and charac.x < schermBreete - 100:
+                    charac.x += Stap
+                if event.key == pygame.K_DOWN and charac.y < schermHoogte - 100:
+                    charac.y += Stap
+                if event.key == pygame.K_UP and charac.y > 0:
+                    charac.y -= Stap
+
+
         scherm_updaten(charac)
+
 
 if __name__ == "__main__":
     main()
