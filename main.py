@@ -29,25 +29,12 @@ def draw_grid():
 class Player():
     def __init__(self, x, y):
 
-        self.fotos = pygame.image.load(os.path.join('character', 'c1.jpg'))
-        self.foto = pygame.transform.scale(self.fotos,(tegel_groote, tegel_groote))
+        foto = pygame.image.load(os.path.join('character', 'c1.jpg'))
+        self.foto = pygame.transform.scale(foto,(tegel_groote, tegel_groote))
         self.rect = self.foto.get_rect()
-        self.rect.x = x
-        self.rect.y = y
 
-    def teken(self):
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT and self.rect.x > 0:
-                    self.rect.x -= tegel_groote
-                if event.key == pygame.K_RIGHT and self.rect.x < schermBreete - 100:
-                    self.rect.x += tegel_groote
-                if event.key == pygame.K_DOWN and self.rect.y < schermHoogte - 100:
-                    self.rect.y += tegel_groote
-                if event.key == pygame.K_UP and self.rect.y > 0:
-                    self.rect.y -= tegel_groote
-
-        scherm.blit(self.foto, self.rect)
+    def teken(self, player_x, player_y):
+        scherm.blit(self.foto, (player_x, player_y))
 
 class Wereld():
     def __init__(self, info):
@@ -86,16 +73,17 @@ wereld_info =[
 player = Player(0, 0)
 wereld = Wereld(wereld_info)
 
-def scherm_updaten():
+def scherm_updaten(player_x, player_y):
     scherm.fill(wit)
     scherm.blit(kamer_1, (0, 0))
     draw_grid()
     wereld.teken()
-    player.teken()
+    player.teken(player_x, player_y)
     pygame.display.update()
 
 def main():
-    charac = 0
+    player_x = 0
+    player_y = 0
 
     clock = pygame.time.Clock()
     aan = True
@@ -105,9 +93,17 @@ def main():
             if event.type == pygame.QUIT:
                 aan = False
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT and player_x > 0:
+                    player_x -= tegel_groote
+                if event.key == pygame.K_RIGHT and player_x < schermBreete - 100:
+                    player_x += tegel_groote
+                if event.key == pygame.K_DOWN and player_y < schermHoogte - 100:
+                    player_y += tegel_groote
+                if event.key == pygame.K_UP and player_y> 0:
+                    player_y -= tegel_groote
 
-
-        scherm_updaten()
+        scherm_updaten(player_x, player_y)
 
 
 main()
