@@ -11,39 +11,68 @@ pygame.display.set_caption("Pandora's puzzels")
 
 #variabelen
 FPS = 60
-Stap = 100
+stap = 100
 wit = 255, 255, 255
-vakGroote = 100
+tegel_groote = 100
 
 
 
 #foto's laden
-kamer1 = pygame.transform.scale(pygame.image.load(os.path.join('achtergronden', 'kamer1.jpg')),
-                                (schermBreete, schermHoogte))
-
-character = pygame.transform.scale(pygame.image.load(os.path.join('character', 'c1.jpg')), (vakGroote, vakGroote))
+kamer_1 = pygame.transform.scale(pygame.image.load(os.path.join('achtergronden', 'kamer1.jpg')),
+                                 (schermBreete, schermHoogte))
 
 def draw_grid():
     for line in range(0, 6):
-        pygame.draw.line(scherm, (255, 255, 255), (0, line * vakGroote), (schermBreete, line * vakGroote))
-        pygame.draw.line(scherm, (255, 255, 255), (line * vakGroote, 0), (line * vakGroote, schermHoogte))
+        pygame.draw.line(scherm, (255, 255, 255), (0, line * tegel_groote), (schermBreete, line * tegel_groote))
+        pygame.draw.line(scherm, (255, 255, 255), (line * tegel_groote, 0), (line * tegel_groote, schermHoogte))
 
-class wereld():
-    pass
+class Player():
+    def __init__(self, x, y):
+
+        self.fotos = pygame.image.load(os.path.join('character', 'c1.jpg'))
+        self.foto = pygame.transform.scale(self.fotos,(tegel_groote, tegel_groote))
+        self.rect = self.foto.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def teken(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT and self.rect.x > 0:
+                    self.rect.x -= tegel_groote
+                if event.key == pygame.K_RIGHT and self.rect.x < schermBreete - 100:
+                    self.rect.x += tegel_groote
+                if event.key == pygame.K_DOWN and self.rect.y < schermHoogte - 100:
+                    self.rect.y += tegel_groote
+                if event.key == pygame.K_UP and self.rect.y > 0:
+                    self.rect.y -= tegel_groote
+
+        scherm.blit(self.foto, self.rect)
+
+class Wereld():
     def __init__(self, info):
+        self.tegel_list = []
 
         #laad foto's
         steen = pygame.image.load(os.path.join('objecten', 'steen.jpg'))
 
+        rij_aantal = 0
         for rij in info:
-            for vak in rij:
-                if vak == 2:
-                    foto = pygame.transform.scale(steen, (vakGroote, vakGroote))
+            kolom_aantal = 0
+            for tegel in rij:
+                if tegel == 2:
+                    foto = pygame.transform.scale(steen, (tegel_groote, tegel_groote))
                     foto_rect = foto.get_rect()
-                    foto_rect.x =
+                    foto_rect.x = kolom_aantal * tegel_groote
+                    foto_rect.y = rij_aantal * tegel_groote
+                    tegel = (foto, foto_rect)
+                    self.tegel_list.append(tegel)
                 kolom_aantal += 1
             rij_aantal += 1
 
+    def teken(self):
+        for tegel in self.tegel_list:
+            scherm.blit(tegel [0], tegel[1])
 
 wereld_info =[
 [1, 0, 0, 0, 1, 1],
@@ -54,22 +83,19 @@ wereld_info =[
 [1, 1, 1, 1, 1, 1],
 ]
 
+player = Player(0, 0)
+wereld = Wereld(wereld_info)
 
-def steen(steenX, steenY):
-    steen = pygame.Rect(steenX, steenY,100,100)
-    pygame.draw.rect(scherm,wit,steen)
-
-def scherm_updaten(charac):
+def scherm_updaten():
     scherm.fill(wit)
-    scherm.blit(kamer1, (0, 0))
-    steen(100, 100)
-    steen(200, 200)
-    scherm.blit(character, (charac.x, charac.y))
+    scherm.blit(kamer_1, (0, 0))
     draw_grid()
+    wereld.teken()
+    player.teken()
     pygame.display.update()
 
 def main():
-    charac = pygame.Rect(0, 0, vakGroote, vakGroote)
+    charac = 0
 
     clock = pygame.time.Clock()
     aan = True
@@ -79,17 +105,9 @@ def main():
             if event.type == pygame.QUIT:
                 aan = False
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT and charac.x > 0 and charac.x - 100 != pygame.rect:
-                    charac.x -= Stap
-                if event.key == pygame.K_RIGHT and charac.x < schermBreete - 100:
-                    charac.x += Stap
-                if event.key == pygame.K_DOWN and charac.y < schermHoogte - 100:
-                    charac.y += Stap
-                if event.key == pygame.K_UP and charac.y > 0:
-                    charac.y -= Stap
 
 
-        scherm_updaten(charac)
+        scherm_updaten()
+
 
 main()
