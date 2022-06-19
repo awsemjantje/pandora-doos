@@ -4,8 +4,8 @@ import os
 pygame.init()
 
 #bepaald breete en hoogte scherm
-schermBreete = 900
-schermHoogte = 900
+schermBreete = 450
+schermHoogte = 450
 
 #maakt het scherm
 scherm = pygame.display.set_mode((schermBreete, schermHoogte))
@@ -13,7 +13,7 @@ pygame.display.set_caption("Pandora's puzzels")
 FPS = 60
 
 # variabelen
-tegel_groote = 100
+tegel_groote = 50
 level_nummer = 0
 aantal_vakken = 9
 
