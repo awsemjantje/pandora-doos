@@ -3,9 +3,11 @@ import os
 
 pygame.init()
 
+#bepaald breete en hoogte scherm
 schermBreete = 900
 schermHoogte = 900
 
+#maakt het scherm
 scherm = pygame.display.set_mode((schermBreete, schermHoogte))
 pygame.display.set_caption("Pandora's puzzels")
 FPS = 60
@@ -21,6 +23,7 @@ grond = pygame.image.load(os.path.join('objecten', 'grond.jpg'))
 steen = pygame.image.load(os.path.join('objecten', 'steen.jpg'))
 muur = pygame.image.load(os.path.join('objecten', 'muur.jpg'))
 portaal = pygame.image.load(os.path.join('objecten', 'portaal.png'))
+doos = pygame.image.load(os.path.join('objecten', 'doos.jpg'))
 
 
 def draw_grid():
@@ -83,45 +86,53 @@ class Wereld:
                     foto_rect.y = rij_aantal * tegel_groote
                     scherm.blit(foto, foto_rect)
 
+                if tegel == 5:
+                    foto = pygame.transform.scale(doos, (tegel_groote, tegel_groote))
+                    foto_rect = foto.get_rect()
+                    foto_rect.x = kolom_aantal * tegel_groote
+                    foto_rect.y = rij_aantal * tegel_groote
+                    scherm.blit(foto, foto_rect)
+
                 kolom_aantal += 1
             rij_aantal += 1
 
+
 levels = {
-0 : [
- [1, 1, 1, 1, 1, 1, 1, 1, 1],
- [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 0, 0, 2, 0, 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 2, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 1, 1, 1, 4, 1, 1, 1, 1],
-],
+ 0: [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 0, 2, 2, 1, 1],
+  [1, 0, 0, 0, 2, 0, 0, 0, 1],
+  [1, 1, 1, 1, 4, 1, 1, 1, 1],
+ ],
 
-1 : [
- [1, 1, 1, 1, 3, 1, 1, 1, 1],
- [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 2, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 0, 0, 2, 0, 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 1, 1, 1, 4, 1, 1, 1, 1],
-],
+ 1: [
+  [1, 1, 1, 1, 3, 1, 1, 1, 1],
+  [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 2, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 2, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 4, 1, 1, 1, 1],
+ ],
 
-2 : [
- [1, 1, 1, 1, 3, 1, 1, 1, 1],
- [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
- [1, 0, 0, 0, 0, 0, 0, 0, 1],
- [1, 0, 0, 2, 0, 2, 0, 0, 1],
- [1, 0, 0, 0, 2, 2, 0, 0, 1],
- [1, 0, 0, 2, 0, 0, 0, 0, 1],
- [1, 0, 2, 2, 0, 2, 2, 2, 1],
- [1, 0, 0, 0, 2, 0, 0, 0, 1],
- [1, 1, 1, 1, 4, 1, 1, 1, 1],
-]
+ 2: [
+  [1, 1, 1, 1, 3, 1, 1, 1, 1],
+  [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 5, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+ ]
 }
 
 wereld_info = levels[level_nummer]
@@ -188,7 +199,8 @@ def main():
                         wereld_info[player_y + 2][player_x] = 2
                     if wereld_info[player_y + 1][player_x] == 4:
                         level_nummer += 1
-
+                    if wereld_info[player_y + 1][player_x] == 5:
+                        aan = False
 
         wereld_info = levels[level_nummer]
         scherm_updaten()
