@@ -4,7 +4,7 @@ import os
 pygame.init()
 
 # bepaald breete en hoogte scherm
-schermBreete = 675
+schermBreete = 674
 schermHoogte = 675
 
 # maakt het scherm
