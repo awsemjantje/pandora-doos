@@ -4,7 +4,7 @@ import os
 pygame.init()
 
 # bepaald breete en hoogte scherm
-schermBreete = 674
+schermBreete = 675
 schermHoogte = 675
 
 # maakt het scherm
@@ -128,10 +128,10 @@ levels = {
   [1, 1, 1, 1, 3, 1, 1, 1, 1],
   [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 1, 1],
-  [1, 0, 0, 0, 0, 0, 2, 0, 4],
-  [1, 0, 0, 0, 0, 0, 2, 6, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 6, 4],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 2, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
  ],
@@ -140,9 +140,9 @@ levels = {
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 1, 1],
-  [3, 'Char', 0, 0, 0, 0, 2, 0, 4],
-  [1, 0, 0, 0, 0, 0, 2, 6, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [3, 'Char', 0, 0, 0, 0, 5, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -178,44 +178,66 @@ def main():
                         wereld_info[player_y][player_x] = 0
                         wereld_info[player_y][player_x - 1] = 'Char'
                     if wereld_info[player_y][player_x - 1] == 2:
-                        if wereld_info[player_y][player_x - 2] == 0 or wereld_info[player_y][player_x - 2] == 6:
+                        if wereld_info[player_y][player_x - 2] == 0:
                             wereld_info[player_y][player_x] = 0
                             wereld_info[player_y][player_x - 1] = 'Char'
                             wereld_info[player_y][player_x - 2] = 2
+                        if wereld_info[player_y][player_x - 2] == 6:
+                            wereld_info[player_y][player_x] = 0
+                            wereld_info[player_y][player_x - 1] = 'Char'
+                            wereld_info[player_y][player_x - 2] = 0
+                    if wereld_info[player_y][player_x - 1] == 5:
+                        aan = False
 
                 if event.key == pygame.K_RIGHT:
                     if wereld_info[player_y][player_x + 1] == 0:
                         wereld_info[player_y][player_x] = 0
                         wereld_info[player_y][player_x + 1] = 'Char'
                     if wereld_info[player_y][player_x + 1] == 2:
-                        if wereld_info[player_y][player_x + 2] == 0 or wereld_info[player_y][player_x + 2] == 6:
+                        if wereld_info[player_y][player_x + 2] == 0:
                             wereld_info[player_y][player_x] = 0
                             wereld_info[player_y][player_x + 1] = 'Char'
                             wereld_info[player_y][player_x + 2] = 2
+                        if wereld_info[player_y][player_x + 2] == 6:
+                            wereld_info[player_y][player_x] = 0
+                            wereld_info[player_y][player_x + 1] = 'Char'
+                            wereld_info[player_y][player_x + 2] = 0
                     if wereld_info[player_y][player_x + 1] == 4:
                         level_nummer += 1
+                    if wereld_info[player_y][player_x + 1] == 5:
+                        aan = False
 
                 if event.key == pygame.K_UP:
                     if wereld_info[player_y - 1][player_x] == 0:
                         wereld_info[player_y][player_x] = 0
                         wereld_info[player_y - 1][player_x] = 'Char'
                     if wereld_info[player_y - 1][player_x] == 2:
-                        if wereld_info[player_y - 2][player_x] == 0 or wereld_info[player_y - 2][player_x] == 6:
+                        if wereld_info[player_y - 2][player_x] == 0:
                             wereld_info[player_y][player_x] = 0
                             wereld_info[player_y - 1][player_x] = 'Char'
                             wereld_info[player_y - 2][player_x] = 2
+                        if wereld_info[player_y - 2][player_x] == 6:
+                            wereld_info[player_y][player_x] = 0
+                            wereld_info[player_y - 1][player_x] = 'Char'
+                            wereld_info[player_y - 2][player_x] = 0
                     if wereld_info[player_y - 1][player_x] == 3:
                         level_nummer -= 1
+                    if wereld_info[player_y - 1][player_x] == 5:
+                        aan = False
 
                 if event.key == pygame.K_DOWN:
                     if wereld_info[player_y + 1][player_x] == 0:
                         wereld_info[player_y][player_x] = 0
                         wereld_info[player_y + 1][player_x] = 'Char'
                     if wereld_info[player_y + 1][player_x] == 2:
-                        if wereld_info[player_y + 2][player_x] == 0 or wereld_info[player_y + 2][player_x] == 6:
+                        if wereld_info[player_y + 2][player_x] == 0:
                             wereld_info[player_y][player_x] = 0
                             wereld_info[player_y + 1][player_x] = 'Char'
                             wereld_info[player_y + 2][player_x] = 2
+                        if wereld_info[player_y + 2][player_x] == 6:
+                            wereld_info[player_y][player_x] = 0
+                            wereld_info[player_y + 1][player_x] = 'Char'
+                            wereld_info[player_y + 2][player_x] = 0
                     if wereld_info[player_y + 1][player_x] == 4:
                         level_nummer += 1
                     if wereld_info[player_y + 1][player_x] == 5:
@@ -225,6 +247,5 @@ def main():
 
         wereld_info = levels[level_nummer]
         scherm_updaten()
-
 
 main()
