@@ -1,3 +1,5 @@
+import copy
+
 import pygame
 import os
 
@@ -153,17 +155,101 @@ wereld_info = levels[level_nummer]
 wereld = Wereld(wereld_info)
 
 
+def beweeg_links():
+    global level_nummer
+
+    if wereld_info[player_y][player_x - 1] == 0:
+        wereld_info[player_y][player_x] = 0
+        wereld_info[player_y][player_x - 1] = 'Char'
+    if wereld_info[player_y][player_x - 1] == 2:
+        if wereld_info[player_y][player_x - 2] == 0:
+            wereld_info[player_y][player_x] = 0
+            wereld_info[player_y][player_x - 1] = 'Char'
+            wereld_info[player_y][player_x - 2] = 2
+        if wereld_info[player_y][player_x - 2] == 6:
+            wereld_info[player_y][player_x] = 0
+            wereld_info[player_y][player_x - 1] = 'Char'
+            wereld_info[player_y][player_x - 2] = 0
+    if wereld_info[player_y][player_x - 1] == 3:
+        level_nummer -= 1
+    if wereld_info[player_y][player_x - 1] == 5:
+        return False
+
+
+def beweeg_rechts():
+    global level_nummer
+
+    if wereld_info[player_y][player_x + 1] == 0:
+        wereld_info[player_y][player_x] = 0
+        wereld_info[player_y][player_x + 1] = 'Char'
+    if wereld_info[player_y][player_x + 1] == 2:
+        if wereld_info[player_y][player_x + 2] == 0:
+            wereld_info[player_y][player_x] = 0
+            wereld_info[player_y][player_x + 1] = 'Char'
+            wereld_info[player_y][player_x + 2] = 2
+        if wereld_info[player_y][player_x + 2] == 6:
+            wereld_info[player_y][player_x] = 0
+            wereld_info[player_y][player_x + 1] = 'Char'
+            wereld_info[player_y][player_x + 2] = 0
+    if wereld_info[player_y][player_x + 1] == 4:
+        level_nummer += 1
+    if wereld_info[player_y][player_x + 1] == 5:
+        return False
+
+
+def beweeg_omhoog():
+    global level_nummer
+
+    if wereld_info[player_y - 1][player_x] == 0:
+        wereld_info[player_y][player_x] = 0
+        wereld_info[player_y - 1][player_x] = 'Char'
+    if wereld_info[player_y - 1][player_x] == 2:
+        if wereld_info[player_y - 2][player_x] == 0:
+            wereld_info[player_y][player_x] = 0
+            wereld_info[player_y - 1][player_x] = 'Char'
+            wereld_info[player_y - 2][player_x] = 2
+        if wereld_info[player_y - 2][player_x] == 6:
+            wereld_info[player_y][player_x] = 0
+            wereld_info[player_y - 1][player_x] = 'Char'
+            wereld_info[player_y - 2][player_x] = 0
+    if wereld_info[player_y - 1][player_x] == 3:
+        level_nummer -= 1
+    if wereld_info[player_y - 1][player_x] == 5:
+        return False
+
+
+def beweeg_omlaag():
+    global level_nummer
+
+    if wereld_info[player_y + 1][player_x] == 0:
+        wereld_info[player_y][player_x] = 0
+        wereld_info[player_y + 1][player_x] = 'Char'
+    if wereld_info[player_y + 1][player_x] == 2:
+        if wereld_info[player_y + 2][player_x] == 0:
+            wereld_info[player_y][player_x] = 0
+            wereld_info[player_y + 1][player_x] = 'Char'
+            wereld_info[player_y + 2][player_x] = 2
+        if wereld_info[player_y + 2][player_x] == 6:
+            wereld_info[player_y][player_x] = 0
+            wereld_info[player_y + 1][player_x] = 'Char'
+            wereld_info[player_y + 2][player_x] = 0
+    if wereld_info[player_y + 1][player_x] == 4:
+        level_nummer += 1
+    if wereld_info[player_y + 1][player_x] == 5:
+        return False
+
+
 def scherm_updaten():
     Wereld(wereld_info)
     pygame.display.update()
 
 
 def main():
-    global player_x
-    global player_y
     global wereld_info
     global level_nummer
 
+    wereld_copie = copy.deepcopy(wereld_info)
+    level_copie = level_nummer
     clock = pygame.time.Clock()
     aan = True
     while aan:
@@ -174,78 +260,34 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    if wereld_info[player_y][player_x - 1] == 0:
-                        wereld_info[player_y][player_x] = 0
-                        wereld_info[player_y][player_x - 1] = 'Char'
-                    if wereld_info[player_y][player_x - 1] == 2:
-                        if wereld_info[player_y][player_x - 2] == 0:
-                            wereld_info[player_y][player_x] = 0
-                            wereld_info[player_y][player_x - 1] = 'Char'
-                            wereld_info[player_y][player_x - 2] = 2
-                        if wereld_info[player_y][player_x - 2] == 6:
-                            wereld_info[player_y][player_x] = 0
-                            wereld_info[player_y][player_x - 1] = 'Char'
-                            wereld_info[player_y][player_x - 2] = 0
-                    if wereld_info[player_y][player_x - 1] == 5:
+                    if beweeg_links() is False:
                         aan = False
 
                 if event.key == pygame.K_RIGHT:
-                    if wereld_info[player_y][player_x + 1] == 0:
-                        wereld_info[player_y][player_x] = 0
-                        wereld_info[player_y][player_x + 1] = 'Char'
-                    if wereld_info[player_y][player_x + 1] == 2:
-                        if wereld_info[player_y][player_x + 2] == 0:
-                            wereld_info[player_y][player_x] = 0
-                            wereld_info[player_y][player_x + 1] = 'Char'
-                            wereld_info[player_y][player_x + 2] = 2
-                        if wereld_info[player_y][player_x + 2] == 6:
-                            wereld_info[player_y][player_x] = 0
-                            wereld_info[player_y][player_x + 1] = 'Char'
-                            wereld_info[player_y][player_x + 2] = 0
-                    if wereld_info[player_y][player_x + 1] == 4:
-                        level_nummer += 1
-                    if wereld_info[player_y][player_x + 1] == 5:
+                    if beweeg_rechts() is False:
                         aan = False
 
                 if event.key == pygame.K_UP:
-                    if wereld_info[player_y - 1][player_x] == 0:
-                        wereld_info[player_y][player_x] = 0
-                        wereld_info[player_y - 1][player_x] = 'Char'
-                    if wereld_info[player_y - 1][player_x] == 2:
-                        if wereld_info[player_y - 2][player_x] == 0:
-                            wereld_info[player_y][player_x] = 0
-                            wereld_info[player_y - 1][player_x] = 'Char'
-                            wereld_info[player_y - 2][player_x] = 2
-                        if wereld_info[player_y - 2][player_x] == 6:
-                            wereld_info[player_y][player_x] = 0
-                            wereld_info[player_y - 1][player_x] = 'Char'
-                            wereld_info[player_y - 2][player_x] = 0
-                    if wereld_info[player_y - 1][player_x] == 3:
-                        level_nummer -= 1
-                    if wereld_info[player_y - 1][player_x] == 5:
+                    if beweeg_omhoog() is False:
                         aan = False
 
                 if event.key == pygame.K_DOWN:
-                    if wereld_info[player_y + 1][player_x] == 0:
-                        wereld_info[player_y][player_x] = 0
-                        wereld_info[player_y + 1][player_x] = 'Char'
-                    if wereld_info[player_y + 1][player_x] == 2:
-                        if wereld_info[player_y + 2][player_x] == 0:
-                            wereld_info[player_y][player_x] = 0
-                            wereld_info[player_y + 1][player_x] = 'Char'
-                            wereld_info[player_y + 2][player_x] = 2
-                        if wereld_info[player_y + 2][player_x] == 6:
-                            wereld_info[player_y][player_x] = 0
-                            wereld_info[player_y + 1][player_x] = 'Char'
-                            wereld_info[player_y + 2][player_x] = 0
-                    if wereld_info[player_y + 1][player_x] == 4:
-                        level_nummer += 1
-                    if wereld_info[player_y + 1][player_x] == 5:
+                    if beweeg_omlaag() is False:
                         aan = False
+
                 if event.key == pygame.K_SPACE:
                     level_nummer += 1
 
+                if event.key == pygame.K_r:
+                    levels[level_nummer] = copy.deepcopy(wereld_copie)
+
         wereld_info = levels[level_nummer]
+
+        if level_copie != level_nummer:
+            level_copie = level_nummer
+            wereld_copie = copy.deepcopy(wereld_info)
+
         scherm_updaten()
+
 
 main()
