@@ -18,6 +18,7 @@ FPS = 60
 tegel_groote = 75
 level_nummer = 0
 aantal_vakken = 9
+spelen = False
 
 # foto's laden
 character = pygame.image.load(os.path.join('character', 'c1.jpg'))
