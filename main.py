@@ -1,5 +1,4 @@
 import copy
-
 import pygame
 import os
 
@@ -18,7 +17,10 @@ FPS = 60
 tegel_groote = 75
 level_nummer = 0
 aantal_vakken = 9
-spelen = False
+spelen = True
+
+zwart = (0, 0, 0)
+rood = (0, 255, 0)
 
 # foto's laden
 character = pygame.image.load(os.path.join('character', 'c1.jpg'))
@@ -30,13 +32,16 @@ doos = pygame.image.load(os.path.join('objecten', 'doos.jpg'))
 gat = pygame.image.load(os.path.join('objecten', 'gat.jpg'))
 
 
+# een class van de huidige wereld wereld
 class Wereld:
     def __init__(self, info):
         global player_x
         global player_y
 
+        # kijkt in de lijst van wereld_info per rij
         rij_aantal = 0
         for rij in info:
+            # kijkt in de lijst vab werekd_info per kolom
             kolom_aantal = 0
             for tegel in rij:
 
@@ -241,13 +246,19 @@ def beweeg_omlaag():
 
 
 def scherm_updaten():
-    Wereld(wereld_info)
+    if spelen is False:
+        scherm.fill(zwart)
+
+    if spelen is True:
+        Wereld(wereld_info)
+
     pygame.display.update()
 
 
 def main():
     global wereld_info
     global level_nummer
+    global spelen
 
     wereld_copie = copy.deepcopy(wereld_info)
     level_copie = level_nummer
@@ -260,27 +271,35 @@ def main():
                 aan = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    if beweeg_links() is False:
-                        aan = False
+                if spelen is True:
+                    if event.key == pygame.K_LEFT:
+                        if beweeg_links() is False:
+                            aan = False
 
-                if event.key == pygame.K_RIGHT:
-                    if beweeg_rechts() is False:
-                        aan = False
+                    if event.key == pygame.K_RIGHT:
+                        if beweeg_rechts() is False:
+                            aan = False
 
-                if event.key == pygame.K_UP:
-                    if beweeg_omhoog() is False:
-                        aan = False
+                    if event.key == pygame.K_UP:
+                        if beweeg_omhoog() is False:
+                            aan = False
 
-                if event.key == pygame.K_DOWN:
-                    if beweeg_omlaag() is False:
-                        aan = False
+                    if event.key == pygame.K_DOWN:
+                        if beweeg_omlaag() is False:
+                            aan = False
 
-                if event.key == pygame.K_SPACE:
-                    level_nummer += 1
+                    if event.key == pygame.K_SPACE:
+                        level_nummer += 1
 
-                if event.key == pygame.K_r:
-                    levels[level_nummer] = copy.deepcopy(wereld_copie)
+                    if event.key == pygame.K_r:
+                        levels[level_nummer] = copy.deepcopy(wereld_copie)
+
+                if event.key == pygame.K_ESCAPE:
+                    if spelen is False:
+                        spelen = True
+
+                    else:
+                        spelen = False
 
         wereld_info = levels[level_nummer]
 
