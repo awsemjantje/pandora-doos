@@ -1,7 +1,10 @@
 import copy
 import pygame
+from pygame import mixer
 import os
+import random
 
+mixer.init()
 pygame.init()
 
 # bepaald breete en hoogte scherm
@@ -18,6 +21,7 @@ tegel_groote = 75
 level_nummer = 0
 aantal_vakken = 9
 spelen = True
+doos_open = False
 
 zwart = (0, 0, 0)
 rood = (0, 255, 0)
@@ -30,6 +34,10 @@ muur = pygame.image.load(os.path.join('objecten', 'muur.jpg'))
 portaal = pygame.image.load(os.path.join('objecten', 'portaal.png'))
 doos = pygame.image.load(os.path.join('objecten', 'doos.jpg'))
 gat = pygame.image.load(os.path.join('objecten', 'gat.jpg'))
+
+# muziek laden
+pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_2.mid'))
+pygame.mixer.music.play(-1, 0.0, 5000)
 
 
 # een class van de huidige wereld wereld
@@ -147,6 +155,18 @@ levels = {
  3: [
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 6, 2, 2, 0, 0, 0, 1],
+  [1, 0, 2, 1, 0, 1, 1, 1, 1],
+  [3, 'Char', 0, 0, 0, 0, 6, 6, 4],
+  [1, 0, 0, 0, 0, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+ ],
+
+ 4: [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [3, 'Char', 0, 0, 0, 0, 5, 0, 1],
@@ -163,6 +183,7 @@ wereld = Wereld(wereld_info)
 
 def beweeg_links():
     global level_nummer
+    global doos_open
 
     if wereld_info[player_y][player_x - 1] == 0:
         wereld_info[player_y][player_x] = 0
@@ -177,13 +198,24 @@ def beweeg_links():
             wereld_info[player_y][player_x - 1] = 'Char'
             wereld_info[player_y][player_x - 2] = 0
     if wereld_info[player_y][player_x - 1] == 3:
-        level_nummer -= 1
+        if doos_open is False:
+            level_nummer -= 1
+        else:
+            level_nummer = random.randint(0, 4)
+    if wereld_info[player_y][player_x - 1] == 4:
+        if doos_open is False:
+            level_nummer += 1
+        else:
+            level_nummer = random.randint(0, 4)
     if wereld_info[player_y][player_x - 1] == 5:
-        return False
+        wereld_info[player_y][player_x - 1] = 0
+        doos_open = True
+        open_doos()
 
 
 def beweeg_rechts():
     global level_nummer
+    global doos_open
 
     if wereld_info[player_y][player_x + 1] == 0:
         wereld_info[player_y][player_x] = 0
@@ -197,14 +229,25 @@ def beweeg_rechts():
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y][player_x + 1] = 'Char'
             wereld_info[player_y][player_x + 2] = 0
+    if wereld_info[player_y][player_x + 1] == 3:
+        if doos_open is False:
+            level_nummer -= 1
+        else:
+            level_nummer = random.randint(0, 4)
     if wereld_info[player_y][player_x + 1] == 4:
-        level_nummer += 1
+        if doos_open is False:
+            level_nummer += 1
+        else:
+            level_nummer = random.randint(0, 4)
     if wereld_info[player_y][player_x + 1] == 5:
-        return False
+        wereld_info[player_y][player_x + 1] = 0
+        doos_open = True
+        open_doos()
 
 
 def beweeg_omhoog():
     global level_nummer
+    global doos_open
 
     if wereld_info[player_y - 1][player_x] == 0:
         wereld_info[player_y][player_x] = 0
@@ -219,13 +262,24 @@ def beweeg_omhoog():
             wereld_info[player_y - 1][player_x] = 'Char'
             wereld_info[player_y - 2][player_x] = 0
     if wereld_info[player_y - 1][player_x] == 3:
-        level_nummer -= 1
+        if doos_open is False:
+            level_nummer -= 1
+        else:
+            level_nummer = random.randint(0, 4)
+    if wereld_info[player_y - 1][player_x] == 4:
+        if doos_open is False:
+            level_nummer += 1
+        else:
+            level_nummer = random.randint(0, 4)
     if wereld_info[player_y - 1][player_x] == 5:
-        return False
+        wereld_info[player_y - 1][player_x] = 0
+        doos_open = True
+        open_doos()
 
 
 def beweeg_omlaag():
     global level_nummer
+    global doos_open
 
     if wereld_info[player_y + 1][player_x] == 0:
         wereld_info[player_y][player_x] = 0
@@ -239,10 +293,26 @@ def beweeg_omlaag():
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y + 1][player_x] = 'Char'
             wereld_info[player_y + 2][player_x] = 0
+    if wereld_info[player_y + 1][player_x] == 3:
+        if doos_open is False:
+            level_nummer -= 1
+        else:
+            level_nummer = random.randint(0, 4)
     if wereld_info[player_y + 1][player_x] == 4:
-        level_nummer += 1
+        if doos_open is False:
+            level_nummer += 1
+        else:
+            level_nummer = random.randint(0, 4)
     if wereld_info[player_y + 1][player_x] == 5:
-        return False
+        wereld_info[player_y + 1][player_x] = 0
+        doos_open = True
+        open_doos()
+
+
+def open_doos():
+    pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_2rev.mp3'))
+    pygame.mixer.music.play()
+
 
 
 def scherm_updaten():
