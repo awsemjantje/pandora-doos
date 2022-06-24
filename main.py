@@ -36,7 +36,7 @@ doos = pygame.image.load(os.path.join('objecten', 'doos.jpg'))
 gat = pygame.image.load(os.path.join('objecten', 'gat.jpg'))
 
 # muziek laden
-pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_2.mid'))
+pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_1.mid'))
 pygame.mixer.music.play(-1, 0.0, 5000)
 
 
@@ -310,8 +310,11 @@ def beweeg_omlaag():
 
 
 def open_doos():
+    global grond
+
     pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_2rev.mp3'))
     pygame.mixer.music.play()
+    grond = grond = pygame.image.load(os.path.join('objecten', 'grond_bloed.png'))
 
 
 
