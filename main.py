@@ -27,22 +27,22 @@ zwart = (0, 0, 0)
 rood = (0, 255, 0)
 
 # foto's laden
-character = pygame.image.load(os.path.join('character', 'character_1.png'))
-grond = pygame.image.load(os.path.join('objecten', 'grond.png'))
-doos = pygame.image.load(os.path.join('objecten', 'doos.png'))
-muur = pygame.image.load(os.path.join('objecten', 'muur.png'))
-muur_zijkant_r = pygame.image.load(os.path.join('objecten', 'muur_zijkant_r.png'))
+character = pygame.image.load(os.path.join('rescources', 'character', 'character_1.png'))
+grond = pygame.image.load(os.path.join('rescources', 'objecten', 'grond.png'))
+doos = pygame.image.load(os.path.join('rescources', 'objecten', 'doos.png'))
+muur = pygame.image.load(os.path.join('rescources', 'objecten', 'muur.png'))
+muur_zijkant_r = pygame.image.load(os.path.join('rescources', 'objecten', 'muur_zijkant_r.png'))
 muur_zijkant_l = pygame.transform.flip(muur_zijkant_r, tegel_groote, 0)
-muur_onder_l = pygame.image.load(os.path.join('objecten', 'muur_onder_hoek.png'))
+muur_onder_l = pygame.image.load(os.path.join('rescources', 'objecten', 'muur_onder_hoek.png'))
 muur_onder_r = pygame.transform.flip(muur_onder_l, tegel_groote, 0)
-muur_onder = pygame.image.load(os.path.join('objecten', 'muur_onder.png'))
-portaal = pygame.image.load(os.path.join('objecten', 'ladder.png'))
-doos_pandora = pygame.image.load(os.path.join('objecten', 'doos.jpg'))
-gat = pygame.image.load(os.path.join('objecten', 'gat.png'))
-gat_gevuld = pygame.image.load(os.path.join('objecten', 'gat_gevuld.png'))
+muur_onder = pygame.image.load(os.path.join('rescources', 'objecten', 'muur_onder.png'))
+portaal = pygame.image.load(os.path.join('rescources', 'objecten', 'ladder.png'))
+doos_pandora = pygame.image.load(os.path.join('rescources', 'objecten', 'doos.jpg'))
+gat = pygame.image.load(os.path.join('rescources', 'objecten', 'gat.png'))
+gat_gevuld = pygame.image.load(os.path.join('rescources', 'objecten', 'gat_gevuld.png'))
 
 # muziek laden
-pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_2.mid'))
+pygame.mixer.music.load(os.path.join('rescources', 'muziek', 'achtergrond_2.mid'))
 pygame.mixer.music.play(-1, 0.0, 5000)
 
 
@@ -392,9 +392,9 @@ def beweeg_omlaag():
 def open_doos():
     global grond
 
-    pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_2rev.mp3'))
+    pygame.mixer.music.load(os.path.join('rescources', 'muziek', 'achtergrond_2rev.mp3'))
     pygame.mixer.music.play()
-    grond = grond = pygame.image.load(os.path.join('objecten', 'grond_bloed.png'))
+    grond = grond = pygame.image.load(os.path.join('rescources', 'objecten', 'grond_bloed.png'))
 
 
 def scherm_updaten():
