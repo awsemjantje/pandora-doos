@@ -29,16 +29,17 @@ rood = (0, 255, 0)
 # foto's laden
 character = pygame.image.load(os.path.join('character', 'character_1.png'))
 grond = pygame.image.load(os.path.join('objecten', 'grond.png'))
-steen = pygame.image.load(os.path.join('objecten', 'steen.jpg'))
-muur_1 = pygame.image.load(os.path.join('objecten', 'muur_1.png'))
+doos = pygame.image.load(os.path.join('objecten', 'doos.png'))
+muur = pygame.image.load(os.path.join('objecten', 'muur.png'))
 muur_zijkant_r = pygame.image.load(os.path.join('objecten', 'muur_zijkant_r.png'))
 muur_zijkant_l = pygame.transform.flip(muur_zijkant_r, tegel_groote, 0)
 muur_onder_l = pygame.image.load(os.path.join('objecten', 'muur_onder_hoek.png'))
 muur_onder_r = pygame.transform.flip(muur_onder_l, tegel_groote, 0)
 muur_onder = pygame.image.load(os.path.join('objecten', 'muur_onder.png'))
 portaal = pygame.image.load(os.path.join('objecten', 'ladder.png'))
-doos = pygame.image.load(os.path.join('objecten', 'doos.jpg'))
-gat = pygame.image.load(os.path.join('objecten', 'gat.jpg'))
+doos_pandora = pygame.image.load(os.path.join('objecten', 'doos.jpg'))
+gat = pygame.image.load(os.path.join('objecten', 'gat.png'))
+gat_gevuld = pygame.image.load(os.path.join('objecten', 'gat_gevuld.png'))
 
 # muziek laden
 pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_1.mid'))
@@ -82,7 +83,7 @@ class Wereld:
                         foto_rect.y = rij_aantal * tegel_groote
                         scherm.blit(foto, foto_rect)
                     if rij_aantal != 8 and kolom_aantal in range(1,8):
-                        foto = pygame.transform.scale(muur_1, (tegel_groote, tegel_groote))
+                        foto = pygame.transform.scale(muur, (tegel_groote, tegel_groote))
                         foto_rect = foto.get_rect()
                         foto_rect.x = kolom_aantal * tegel_groote
                         foto_rect.y = rij_aantal * tegel_groote
@@ -113,7 +114,7 @@ class Wereld:
                         scherm.blit(foto, foto_rect)
 
                 if tegel == 2:
-                    foto = pygame.transform.scale(steen, (tegel_groote, tegel_groote))
+                    foto = pygame.transform.scale(doos, (tegel_groote, tegel_groote))
                     foto_rect = foto.get_rect()
                     foto_rect.x = kolom_aantal * tegel_groote
                     foto_rect.y = rij_aantal * tegel_groote
@@ -134,7 +135,7 @@ class Wereld:
                     scherm.blit(foto, foto_rect)
 
                 if tegel == 5:
-                    foto = pygame.transform.scale(doos, (tegel_groote, tegel_groote))
+                    foto = pygame.transform.scale(doos_pandora, (tegel_groote, tegel_groote))
                     foto_rect = foto.get_rect()
                     foto_rect.x = kolom_aantal * tegel_groote
                     foto_rect.y = rij_aantal * tegel_groote
@@ -142,6 +143,13 @@ class Wereld:
 
                 if tegel == 6:
                     foto = pygame.transform.scale(gat, (tegel_groote, tegel_groote))
+                    foto_rect = foto.get_rect()
+                    foto_rect.x = kolom_aantal * tegel_groote
+                    foto_rect.y = rij_aantal * tegel_groote
+                    scherm.blit(foto, foto_rect)
+
+                if tegel == 7:
+                    foto = pygame.transform.scale(gat_gevuld, (tegel_groote, tegel_groote))
                     foto_rect = foto.get_rect()
                     foto_rect.x = kolom_aantal * tegel_groote
                     foto_rect.y = rij_aantal * tegel_groote
@@ -159,12 +167,24 @@ levels = {
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 4, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    ],
+
+ 1: [
+  [1, 1, 1, 1, 3, 1, 1, 1, 1],
+  [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 0, 2, 2, 1, 1],
   [1, 0, 0, 0, 2, 0, 0, 0, 1],
   [1, 1, 1, 1, 4, 1, 1, 1, 1],
  ],
 
- 1: [
+ 2: [
   [1, 1, 1, 1, 3, 1, 1, 1, 1],
   [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -176,7 +196,7 @@ levels = {
   [1, 1, 1, 1, 4, 1, 1, 1, 1],
  ],
 
- 2: [
+ 3: [
   [1, 1, 1, 1, 3, 1, 1, 1, 1],
   [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -188,7 +208,7 @@ levels = {
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
  ],
 
- 3: [
+ 4: [
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 6, 2, 2, 0, 0, 0, 1],
@@ -200,7 +220,7 @@ levels = {
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
  ],
 
- 4: [
+ 5: [
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -225,14 +245,14 @@ def beweeg_links():
         wereld_info[player_y][player_x] = 0
         wereld_info[player_y][player_x - 1] = 'Char'
     if wereld_info[player_y][player_x - 1] == 2:
-        if wereld_info[player_y][player_x - 2] == 0:
+        if wereld_info[player_y][player_x - 2] == 0 or wereld_info[player_y][player_x - 2] == 7:
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y][player_x - 1] = 'Char'
             wereld_info[player_y][player_x - 2] = 2
         if wereld_info[player_y][player_x - 2] == 6:
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y][player_x - 1] = 'Char'
-            wereld_info[player_y][player_x - 2] = 0
+            wereld_info[player_y][player_x - 2] = 7
     if wereld_info[player_y][player_x - 1] == 3:
         if doos_open is False:
             level_nummer -= 1
@@ -247,6 +267,9 @@ def beweeg_links():
         wereld_info[player_y][player_x - 1] = 0
         doos_open = True
         open_doos()
+    if wereld_info[player_y][player_x - 1] == 7:
+        wereld_info[player_y][player_x] = 0
+        wereld_info[player_y][player_x - 1] = 'Char'
 
 
 def beweeg_rechts():
@@ -257,14 +280,14 @@ def beweeg_rechts():
         wereld_info[player_y][player_x] = 0
         wereld_info[player_y][player_x + 1] = 'Char'
     if wereld_info[player_y][player_x + 1] == 2:
-        if wereld_info[player_y][player_x + 2] == 0:
+        if wereld_info[player_y][player_x + 2] == 0 or wereld_info[player_y][player_x + 2] == 7:
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y][player_x + 1] = 'Char'
             wereld_info[player_y][player_x + 2] = 2
         if wereld_info[player_y][player_x + 2] == 6:
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y][player_x + 1] = 'Char'
-            wereld_info[player_y][player_x + 2] = 0
+            wereld_info[player_y][player_x + 2] = 7
     if wereld_info[player_y][player_x + 1] == 3:
         if doos_open is False:
             level_nummer -= 1
@@ -279,6 +302,9 @@ def beweeg_rechts():
         wereld_info[player_y][player_x + 1] = 0
         doos_open = True
         open_doos()
+    if wereld_info[player_y][player_x + 1] == 7:
+        wereld_info[player_y][player_x] = 0
+        wereld_info[player_y][player_x + 1] = 'Char'
 
 
 def beweeg_omhoog():
@@ -289,14 +315,14 @@ def beweeg_omhoog():
         wereld_info[player_y][player_x] = 0
         wereld_info[player_y - 1][player_x] = 'Char'
     if wereld_info[player_y - 1][player_x] == 2:
-        if wereld_info[player_y - 2][player_x] == 0:
+        if wereld_info[player_y - 2][player_x] == 0 or wereld_info[player_y - 2][player_x] == 7:
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y - 1][player_x] = 'Char'
             wereld_info[player_y - 2][player_x] = 2
         if wereld_info[player_y - 2][player_x] == 6:
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y - 1][player_x] = 'Char'
-            wereld_info[player_y - 2][player_x] = 0
+            wereld_info[player_y - 2][player_x] = 7
     if wereld_info[player_y - 1][player_x] == 3:
         if doos_open is False:
             level_nummer -= 1
@@ -311,6 +337,9 @@ def beweeg_omhoog():
         wereld_info[player_y - 1][player_x] = 0
         doos_open = True
         open_doos()
+    if wereld_info[player_y - 1][player_x] == 7:
+        wereld_info[player_y][player_x] = 0
+        wereld_info[player_y - 1][player_x] = 'Char'
 
 
 def beweeg_omlaag():
@@ -321,14 +350,14 @@ def beweeg_omlaag():
         wereld_info[player_y][player_x] = 0
         wereld_info[player_y + 1][player_x] = 'Char'
     if wereld_info[player_y + 1][player_x] == 2:
-        if wereld_info[player_y + 2][player_x] == 0:
+        if wereld_info[player_y + 2][player_x] == 0 or wereld_info[player_y + 2][player_x] == 7:
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y + 1][player_x] = 'Char'
             wereld_info[player_y + 2][player_x] = 2
         if wereld_info[player_y + 2][player_x] == 6:
             wereld_info[player_y][player_x] = 0
             wereld_info[player_y + 1][player_x] = 'Char'
-            wereld_info[player_y + 2][player_x] = 0
+            wereld_info[player_y + 2][player_x] = 7
     if wereld_info[player_y + 1][player_x] == 3:
         if doos_open is False:
             level_nummer -= 1
@@ -343,6 +372,9 @@ def beweeg_omlaag():
         wereld_info[player_y + 1][player_x] = 0
         doos_open = True
         open_doos()
+    if wereld_info[player_y + 1][player_x] == 7:
+        wereld_info[player_y][player_x] = 0
+        wereld_info[player_y + 1][player_x] = 'Char'
 
 
 def open_doos():
