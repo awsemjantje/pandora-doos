@@ -42,7 +42,7 @@ gat = pygame.image.load(os.path.join('objecten', 'gat.png'))
 gat_gevuld = pygame.image.load(os.path.join('objecten', 'gat_gevuld.png'))
 
 # muziek laden
-pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_1.mid'))
+pygame.mixer.music.load(os.path.join('muziek', 'achtergrond_2.mid'))
 pygame.mixer.music.play(-1, 0.0, 5000)
 
 
@@ -162,65 +162,77 @@ class Wereld:
 levels = {
  0: [
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 7, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 7, 1],
+  [1, 0, 0, 0, 0, 0, 0, 7, 1],
   [1, 0, 0, 0, 4, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
     ],
 
  1: [
-  [1, 1, 1, 1, 3, 1, 1, 1, 1],
-  [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 3, 0, 0, 0, 1],
+  [1, 0, 7, 0, 'Char', 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 7, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 0, 2, 2, 1, 1],
   [1, 0, 0, 0, 2, 0, 0, 0, 1],
-  [1, 1, 1, 1, 4, 1, 1, 1, 1],
+  [1, 0, 7, 0, 4, 2, 2, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
  ],
 
  2: [
-  [1, 1, 1, 1, 3, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 3, 0, 0, 0, 1],
   [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 7, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 7, 1],
   [1, 0, 1, 2, 2, 2, 1, 0, 1],
   [1, 0, 1, 0, 0, 0, 1, 0, 1],
-  [1, 1, 1, 1, 4, 1, 1, 1, 1],
+  [1, 0, 1, 2, 4, 2, 1, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
  ],
 
  3: [
-  [1, 1, 1, 1, 3, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 3, 0, 0, 0, 1],
   [1, 0, 0, 0, 'Char', 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 6, 4],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 2, 0, 0, 0, 0, 1],
+  [1, 0, 7, 0, 0, 0, 0, 6, 1],
+  [1, 0, 0, 0, 0, 0, 6, 4, 1],
+  [1, 0, 0, 0, 0, 0, 0, 6, 1],
+  [1, 0, 0, 2, 0, 7, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
  ],
 
  4: [
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 7, 0, 1],
   [1, 0, 6, 2, 2, 0, 0, 0, 1],
   [1, 0, 2, 1, 0, 1, 1, 1, 1],
-  [3, 'Char', 0, 0, 0, 0, 6, 6, 4],
-  [1, 0, 0, 0, 0, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 3, 0, 0, 0, 6, 6, 4, 1],
+  [1, 'Char', 0, 0, 0, 1, 1, 1, 1],
+  [1, 0, 7, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
  ],
 
  5: [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 2, 0, 0, 0, 1],
+  [1, 3, 2, 2, 6, 0, 0, 0, 1],
+  [1, 'Char', 0, 1, 6, 0, 1, 1, 1],
+  [1, 0, 0, 1, 0, 6, 1, 4, 1],
+  [1, 0, 0, 1, 0, 0, 6, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    ],
+
+ 6: [
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -257,12 +269,12 @@ def beweeg_links():
         if doos_open is False:
             level_nummer -= 1
         else:
-            level_nummer = random.randint(0, 4)
+            level_nummer = random.randint(0, 6)
     if wereld_info[player_y][player_x - 1] == 4:
         if doos_open is False:
             level_nummer += 1
         else:
-            level_nummer = random.randint(0, 4)
+            level_nummer = random.randint(0, 6)
     if wereld_info[player_y][player_x - 1] == 5:
         wereld_info[player_y][player_x - 1] = 0
         doos_open = True
@@ -292,12 +304,12 @@ def beweeg_rechts():
         if doos_open is False:
             level_nummer -= 1
         else:
-            level_nummer = random.randint(0, 4)
+            level_nummer = random.randint(0, 6)
     if wereld_info[player_y][player_x + 1] == 4:
         if doos_open is False:
             level_nummer += 1
         else:
-            level_nummer = random.randint(0, 4)
+            level_nummer = random.randint(0, 6)
     if wereld_info[player_y][player_x + 1] == 5:
         wereld_info[player_y][player_x + 1] = 0
         doos_open = True
@@ -327,12 +339,12 @@ def beweeg_omhoog():
         if doos_open is False:
             level_nummer -= 1
         else:
-            level_nummer = random.randint(0, 4)
+            level_nummer = random.randint(0, 6)
     if wereld_info[player_y - 1][player_x] == 4:
         if doos_open is False:
             level_nummer += 1
         else:
-            level_nummer = random.randint(0, 4)
+            level_nummer = random.randint(0, 6)
     if wereld_info[player_y - 1][player_x] == 5:
         wereld_info[player_y - 1][player_x] = 0
         doos_open = True
@@ -362,12 +374,12 @@ def beweeg_omlaag():
         if doos_open is False:
             level_nummer -= 1
         else:
-            level_nummer = random.randint(0, 4)
+            level_nummer = random.randint(0, 6)
     if wereld_info[player_y + 1][player_x] == 4:
         if doos_open is False:
             level_nummer += 1
         else:
-            level_nummer = random.randint(0, 4)
+            level_nummer = random.randint(0, 6)
     if wereld_info[player_y + 1][player_x] == 5:
         wereld_info[player_y + 1][player_x] = 0
         doos_open = True
