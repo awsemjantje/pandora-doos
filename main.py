@@ -27,11 +27,16 @@ zwart = (0, 0, 0)
 rood = (0, 255, 0)
 
 # foto's laden
-character = pygame.image.load(os.path.join('character', 'c1.jpg'))
-grond = pygame.image.load(os.path.join('objecten', 'grond.jpg'))
+character = pygame.image.load(os.path.join('character', 'character_1.png'))
+grond = pygame.image.load(os.path.join('objecten', 'grond.png'))
 steen = pygame.image.load(os.path.join('objecten', 'steen.jpg'))
-muur = pygame.image.load(os.path.join('objecten', 'muur.jpg'))
-portaal = pygame.image.load(os.path.join('objecten', 'portaal.png'))
+muur_1 = pygame.image.load(os.path.join('objecten', 'muur_1.png'))
+muur_zijkant_r = pygame.image.load(os.path.join('objecten', 'muur_zijkant_r.png'))
+muur_zijkant_l = pygame.transform.flip(muur_zijkant_r, tegel_groote, 0)
+muur_onder_l = pygame.image.load(os.path.join('objecten', 'muur_onder_hoek.png'))
+muur_onder_r = pygame.transform.flip(muur_onder_l, tegel_groote, 0)
+muur_onder = pygame.image.load(os.path.join('objecten', 'muur_onder.png'))
+portaal = pygame.image.load(os.path.join('objecten', 'ladder.png'))
 doos = pygame.image.load(os.path.join('objecten', 'doos.jpg'))
 gat = pygame.image.load(os.path.join('objecten', 'gat.jpg'))
 
@@ -70,11 +75,42 @@ class Wereld:
                     scherm.blit(foto, foto_rect)
 
                 if tegel == 1:
-                    foto = pygame.transform.scale(muur, (tegel_groote, tegel_groote))
-                    foto_rect = foto.get_rect()
-                    foto_rect.x = kolom_aantal * tegel_groote
-                    foto_rect.y = rij_aantal * tegel_groote
-                    scherm.blit(foto, foto_rect)
+                    if kolom_aantal == 0 and rij_aantal != 8:
+                        foto = pygame.transform.scale(muur_zijkant_r, (tegel_groote, tegel_groote))
+                        foto_rect = foto.get_rect()
+                        foto_rect.x = kolom_aantal * tegel_groote
+                        foto_rect.y = rij_aantal * tegel_groote
+                        scherm.blit(foto, foto_rect)
+                    if rij_aantal != 8 and kolom_aantal in range(1,8):
+                        foto = pygame.transform.scale(muur_1, (tegel_groote, tegel_groote))
+                        foto_rect = foto.get_rect()
+                        foto_rect.x = kolom_aantal * tegel_groote
+                        foto_rect.y = rij_aantal * tegel_groote
+                        scherm.blit(foto, foto_rect)
+                    if kolom_aantal == 8 and rij_aantal != 8:
+                        foto = pygame.transform.scale(muur_zijkant_l, (tegel_groote, tegel_groote))
+                        foto_rect = foto.get_rect()
+                        foto_rect.x = kolom_aantal * tegel_groote
+                        foto_rect.y = rij_aantal * tegel_groote
+                        scherm.blit(foto, foto_rect)
+                    if rij_aantal == 8 and kolom_aantal == 0:
+                        foto = pygame.transform.scale(muur_onder_l, (tegel_groote, tegel_groote))
+                        foto_rect = foto.get_rect()
+                        foto_rect.x = kolom_aantal * tegel_groote
+                        foto_rect.y = rij_aantal * tegel_groote
+                        scherm.blit(foto, foto_rect)
+                    if rij_aantal == 8 and kolom_aantal == 8:
+                        foto = pygame.transform.scale(muur_onder_r, (tegel_groote, tegel_groote))
+                        foto_rect = foto.get_rect()
+                        foto_rect.x = kolom_aantal * tegel_groote
+                        foto_rect.y = rij_aantal * tegel_groote
+                        scherm.blit(foto, foto_rect)
+                    if rij_aantal == 8 and kolom_aantal in range(1, 8):
+                        foto = pygame.transform.scale(muur_onder, (tegel_groote, tegel_groote))
+                        foto_rect = foto.get_rect()
+                        foto_rect.x = kolom_aantal * tegel_groote
+                        foto_rect.y = rij_aantal * tegel_groote
+                        scherm.blit(foto, foto_rect)
 
                 if tegel == 2:
                     foto = pygame.transform.scale(steen, (tegel_groote, tegel_groote))
@@ -317,7 +353,6 @@ def open_doos():
     grond = grond = pygame.image.load(os.path.join('objecten', 'grond_bloed.png'))
 
 
-
 def scherm_updaten():
     if spelen is False:
         scherm.fill(zwart)
@@ -350,8 +385,19 @@ def main():
                             aan = False
 
                     if event.key == pygame.K_RIGHT:
-                        if beweeg_rechts() is False:
-                            aan = False
+                        if doos_open is False:
+                            beweeg_rechts()
+
+                        else:
+                            teller = random.randint(0, 4)
+                            if teller == 0:
+                                beweeg_links()
+                            if teller == 1:
+                                beweeg_rechts()
+                            if teller == 2:
+                                beweeg_omhoog()
+                            if teller == 3:
+                                beweeg_omlaag()
 
                     if event.key == pygame.K_UP:
                         if beweeg_omhoog() is False:
