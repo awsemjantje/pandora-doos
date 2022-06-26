@@ -1,6 +1,5 @@
 import copy
 import sys
-
 import pygame
 from pygame import mixer
 import os
@@ -38,9 +37,9 @@ grond = pygame.image.load(os.path.join('rescources', 'objecten', 'grond.png'))
 doos = pygame.image.load(os.path.join('rescources', 'objecten', 'doos.png'))
 muur = pygame.image.load(os.path.join('rescources', 'objecten', 'muur.png'))
 muur_zijkant_r = pygame.image.load(os.path.join('rescources', 'objecten', 'muur_zijkant_r.png'))
-muur_zijkant_l = pygame.transform.flip(muur_zijkant_r, tegel_groote, 0)
+muur_zijkant_l = pygame.transform.flip(muur_zijkant_r, True, False)
 muur_onder_l = pygame.image.load(os.path.join('rescources', 'objecten', 'muur_onder_hoek.png'))
-muur_onder_r = pygame.transform.flip(muur_onder_l, tegel_groote, 0)
+muur_onder_r = pygame.transform.flip(muur_onder_l, True, False)
 muur_onder = pygame.image.load(os.path.join('rescources', 'objecten', 'muur_onder.png'))
 portaal = pygame.image.load(os.path.join('rescources', 'objecten', 'ladder.png'))
 doos_pandora = pygame.image.load(os.path.join('rescources', 'objecten', 'doos_pandora.png'))
@@ -333,7 +332,6 @@ def main():
 
     wereld_copie = copy.deepcopy(wereld_info)
     level_copie = level_nummer
-    level_nummer_copie = 0
 
     clock = pygame.time.Clock()
     aan = True
