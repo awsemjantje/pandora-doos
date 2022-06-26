@@ -16,15 +16,20 @@ scherm = pygame.display.set_mode((schermBreete, schermHoogte))
 pygame.display.set_caption("Pandora's puzzels")
 FPS = 60
 
+# maakt font
+font = pygame.font.SysFont('script', 25)
+
 # variabelen
 tegel_groote = 75
 level_nummer = 0
 aantal_vakken = 9
 spelen = True
 doos_open = False
+staat_op_doos = False
+bezig = False
 
 zwart = (0, 0, 0)
-rood = (0, 255, 0)
+rood = (255, 0, 0)
 
 # foto's laden
 character = pygame.image.load(os.path.join('rescources', 'character', 'character_1.png'))
@@ -82,7 +87,7 @@ class Wereld:
                         foto_rect.x = kolom_aantal * tegel_groote
                         foto_rect.y = rij_aantal * tegel_groote
                         scherm.blit(foto, foto_rect)
-                    if rij_aantal != 8 and kolom_aantal in range(1,8):
+                    if rij_aantal != 8 and kolom_aantal in range(1, 8):
                         foto = pygame.transform.scale(muur, (tegel_groote, tegel_groote))
                         foto_rect = foto.get_rect()
                         foto_rect.x = kolom_aantal * tegel_groote
@@ -249,144 +254,52 @@ wereld_info = levels[level_nummer]
 wereld = Wereld(wereld_info)
 
 
-def beweeg_links():
+def beweeg(x, y):
     global level_nummer
     global doos_open
+    global staat_op_doos
+    global bezig
 
-    if wereld_info[player_y][player_x - 1] == 0:
-        wereld_info[player_y][player_x] = 0
-        wereld_info[player_y][player_x - 1] = 'Char'
-    if wereld_info[player_y][player_x - 1] == 2:
-        if wereld_info[player_y][player_x - 2] == 0 or wereld_info[player_y][player_x - 2] == 7:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y][player_x - 1] = 'Char'
-            wereld_info[player_y][player_x - 2] = 2
-        if wereld_info[player_y][player_x - 2] == 6:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y][player_x - 1] = 'Char'
-            wereld_info[player_y][player_x - 2] = 7
-    if wereld_info[player_y][player_x - 1] == 3:
-        if doos_open is False:
-            level_nummer -= 1
-        else:
-            level_nummer = random.randint(0, 6)
-    if wereld_info[player_y][player_x - 1] == 4:
-        if doos_open is False:
-            level_nummer += 1
-        else:
-            level_nummer = random.randint(0, 6)
-    if wereld_info[player_y][player_x - 1] == 5:
-        wereld_info[player_y][player_x - 1] = 0
-        doos_open = True
-        open_doos()
-    if wereld_info[player_y][player_x - 1] == 7:
-        wereld_info[player_y][player_x] = 0
-        wereld_info[player_y][player_x - 1] = 'Char'
-
-
-def beweeg_rechts():
-    global level_nummer
-    global doos_open
-
-    if wereld_info[player_y][player_x + 1] == 0:
-        wereld_info[player_y][player_x] = 0
-        wereld_info[player_y][player_x + 1] = 'Char'
-    if wereld_info[player_y][player_x + 1] == 2:
-        if wereld_info[player_y][player_x + 2] == 0 or wereld_info[player_y][player_x + 2] == 7:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y][player_x + 1] = 'Char'
-            wereld_info[player_y][player_x + 2] = 2
-        if wereld_info[player_y][player_x + 2] == 6:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y][player_x + 1] = 'Char'
-            wereld_info[player_y][player_x + 2] = 7
-    if wereld_info[player_y][player_x + 1] == 3:
-        if doos_open is False:
-            level_nummer -= 1
-        else:
-            level_nummer = random.randint(0, 6)
-    if wereld_info[player_y][player_x + 1] == 4:
-        if doos_open is False:
-            level_nummer += 1
-        else:
-            level_nummer = random.randint(0, 6)
-    if wereld_info[player_y][player_x + 1] == 5:
-        wereld_info[player_y][player_x + 1] = 0
-        doos_open = True
-        open_doos()
-    if wereld_info[player_y][player_x + 1] == 7:
-        wereld_info[player_y][player_x] = 0
-        wereld_info[player_y][player_x + 1] = 'Char'
-
-
-def beweeg_omhoog():
-    global level_nummer
-    global doos_open
-
-    if wereld_info[player_y - 1][player_x] == 0:
-        wereld_info[player_y][player_x] = 0
-        wereld_info[player_y - 1][player_x] = 'Char'
-    if wereld_info[player_y - 1][player_x] == 2:
-        if wereld_info[player_y - 2][player_x] == 0 or wereld_info[player_y - 2][player_x] == 7:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y - 1][player_x] = 'Char'
-            wereld_info[player_y - 2][player_x] = 2
-        if wereld_info[player_y - 2][player_x] == 6:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y - 1][player_x] = 'Char'
-            wereld_info[player_y - 2][player_x] = 7
-    if wereld_info[player_y - 1][player_x] == 3:
-        if doos_open is False:
-            level_nummer -= 1
-        else:
-            level_nummer = random.randint(0, 6)
-    if wereld_info[player_y - 1][player_x] == 4:
-        if doos_open is False:
-            level_nummer += 1
-        else:
-            level_nummer = random.randint(0, 6)
-    if wereld_info[player_y - 1][player_x] == 5:
-        wereld_info[player_y - 1][player_x] = 0
-        doos_open = True
-        open_doos()
-    if wereld_info[player_y - 1][player_x] == 7:
-        wereld_info[player_y][player_x] = 0
-        wereld_info[player_y - 1][player_x] = 'Char'
-
-
-def beweeg_omlaag():
-    global level_nummer
-    global doos_open
-
-    if wereld_info[player_y + 1][player_x] == 0:
-        wereld_info[player_y][player_x] = 0
-        wereld_info[player_y + 1][player_x] = 'Char'
-    if wereld_info[player_y + 1][player_x] == 2:
-        if wereld_info[player_y + 2][player_x] == 0 or wereld_info[player_y + 2][player_x] == 7:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y + 1][player_x] = 'Char'
-            wereld_info[player_y + 2][player_x] = 2
-        if wereld_info[player_y + 2][player_x] == 6:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y + 1][player_x] = 'Char'
-            wereld_info[player_y + 2][player_x] = 7
-    if wereld_info[player_y + 1][player_x] == 3:
-        if doos_open is False:
-            level_nummer -= 1
-        else:
-            level_nummer = random.randint(0, 6)
-    if wereld_info[player_y + 1][player_x] == 4:
-        if doos_open is False:
-            level_nummer += 1
-        else:
-            level_nummer = random.randint(0, 6)
-    if wereld_info[player_y + 1][player_x] == 5:
-        wereld_info[player_y + 1][player_x] = 0
-        doos_open = True
-        open_doos()
-    if wereld_info[player_y + 1][player_x] == 7:
-        wereld_info[player_y][player_x] = 0
-        wereld_info[player_y + 1][player_x] = 'Char'
+    if bezig is False:
+        bezig = True
+        if wereld_info[player_y + y][player_x + x] == 0:
+            if staat_op_doos is True:
+                wereld_info[player_y][player_x] = 7
+            else:
+                wereld_info[player_y][player_x] = 0
+            wereld_info[player_y + y][player_x + x] = 'Char'
+            staat_op_doos = False
+        if wereld_info[player_y + y][player_x + x] == 2:
+            if wereld_info[player_y + y + y][player_x + x + x] == 0 or wereld_info[player_y + y + y][player_x + x + x] == 7:
+                wereld_info[player_y][player_x] = 0
+                wereld_info[player_y + y][player_x + x] = 'Char'
+                wereld_info[player_y + y + y][player_x + x + x] = 2
+            if wereld_info[player_y + y + y][player_x + x + x] == 6:
+                wereld_info[player_y][player_x] = 0
+                wereld_info[player_y + y][player_x + x] = 'Char'
+                wereld_info[player_y + y + y][player_x + x + x] = 7
+        if wereld_info[player_y + y][player_x + x] == 3:
+            if doos_open is False:
+                level_nummer -= 1
+            else:
+                level_nummer = random.randint(0, 6)
+        if wereld_info[player_y + y][player_x + x] == 4:
+            if doos_open is False:
+                level_nummer += 1
+            else:
+                level_nummer = random.randint(0, 6)
+        if wereld_info[player_y + y][player_x + x] == 5:
+            wereld_info[player_y + y][player_x + x] = 0
+            doos_open = True
+            open_doos()
+        if wereld_info[player_y + y][player_x + x] == 7:
+            if staat_op_doos is True:
+                wereld_info[player_y][player_x] = 7
+            else:
+                wereld_info[player_y][player_x] = 0
+            wereld_info[player_y + y][player_x + x] = 'Char'
+            staat_op_doos = True
+        bezig = False
 
 
 def open_doos():
@@ -397,12 +310,21 @@ def open_doos():
     grond = grond = pygame.image.load(os.path.join('rescources', 'objecten', 'grond_bloed.png'))
 
 
+def teken_tekst(tekst, tekst_kleur, tekst_pos):
+    tekst_foto = font.render(tekst, True, tekst_kleur)
+    scherm.blit(tekst_foto, tekst_pos)
+
+
 def scherm_updaten():
     if spelen is False:
         scherm.fill(zwart)
 
     if spelen is True:
         Wereld(wereld_info)
+        if level_nummer == 0:
+            teken_tekst('beweeg met de pijltjes', rood, (400, 10))
+        if level_nummer == 1:
+            teken_tekst('druk R om het level te resetten', rood, (380, 10))
 
     pygame.display.update()
 
@@ -414,6 +336,8 @@ def main():
 
     wereld_copie = copy.deepcopy(wereld_info)
     level_copie = level_nummer
+    level_nummer_copie = 0
+
     clock = pygame.time.Clock()
     aan = True
     while aan:
@@ -425,31 +349,16 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if spelen is True:
                     if event.key == pygame.K_LEFT:
-                        if beweeg_links() is False:
-                            aan = False
+                        beweeg(-1, 0)
 
                     if event.key == pygame.K_RIGHT:
-                        if doos_open is False:
-                            beweeg_rechts()
-
-                        else:
-                            teller = random.randint(0, 4)
-                            if teller == 0:
-                                beweeg_links()
-                            if teller == 1:
-                                beweeg_rechts()
-                            if teller == 2:
-                                beweeg_omhoog()
-                            if teller == 3:
-                                beweeg_omlaag()
+                        beweeg(1, 0)
 
                     if event.key == pygame.K_UP:
-                        if beweeg_omhoog() is False:
-                            aan = False
+                        beweeg(0, -1)
 
                     if event.key == pygame.K_DOWN:
-                        if beweeg_omlaag() is False:
-                            aan = False
+                        beweeg(0, 1)
 
                     if event.key == pygame.K_SPACE:
                         level_nummer += 1
@@ -466,7 +375,7 @@ def main():
 
         wereld_info = levels[level_nummer]
 
-        if level_copie != level_nummer:
+        if level_copie < level_nummer:
             level_copie = level_nummer
             wereld_copie = copy.deepcopy(wereld_info)
 
