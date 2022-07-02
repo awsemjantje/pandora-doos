@@ -1,5 +1,4 @@
 import copy
-import sys
 import pygame
 from pygame import mixer
 import os
@@ -27,9 +26,11 @@ aantal_vakken = 9
 spelen = True
 doos_open = False
 staat_op_doos = False
+terug = False
 
 zwart = (0, 0, 0)
 rood = (255, 0, 0)
+blauw = (0, 255, 0)
 
 # foto's laden
 character = pygame.image.load(os.path.join('rescources', 'character', 'character_1.png'))
@@ -118,21 +119,14 @@ class Wereld:
                         foto_rect.y = rij_aantal * tegel_groote
                         scherm.blit(foto, foto_rect)
 
-                if tegel == 2:
+                if tegel == 2 or tegel == 8:
                     foto = pygame.transform.scale(doos, (tegel_groote, tegel_groote))
                     foto_rect = foto.get_rect()
                     foto_rect.x = kolom_aantal * tegel_groote
                     foto_rect.y = rij_aantal * tegel_groote
                     scherm.blit(foto, foto_rect)
 
-                if tegel == 3:
-                    foto = pygame.transform.scale(portaal, (tegel_groote, tegel_groote))
-                    foto_rect = foto.get_rect()
-                    foto_rect.x = kolom_aantal * tegel_groote
-                    foto_rect.y = rij_aantal * tegel_groote
-                    scherm.blit(foto, foto_rect)
-
-                if tegel == 4:
+                if tegel == 3 or tegel == 4:
                     foto = pygame.transform.scale(portaal, (tegel_groote, tegel_groote))
                     foto_rect = foto.get_rect()
                     foto_rect.x = kolom_aantal * tegel_groote
@@ -266,29 +260,44 @@ def beweeg(x, y):
             wereld_info[player_y][player_x] = 0
         wereld_info[player_y + y][player_x + x] = 'Char'
         staat_op_doos = False
-    if wereld_info[player_y + y][player_x + x] == 2:
-        if wereld_info[player_y + y + y][player_x + x + x] == 0 or wereld_info[player_y + y + y][player_x + x + x] == 7:
-            wereld_info[player_y][player_x] = 0
+
+    if wereld_info[player_y + y][player_x + x] == 2 or wereld_info[player_y + y][player_x + x] == 8:
+        if wereld_info[player_y + y + y][player_x + x + x] == 0 or \
+                wereld_info[player_y + y + y][player_x + x + x] == 7 or \
+                wereld_info[player_y + y + y][player_x + x + x] == 6:
+
+            if staat_op_doos is True:
+                wereld_info[player_y][player_x] = 7
+                staat_op_doos = False
+            else:
+                wereld_info[player_y][player_x] = 0
+            if wereld_info[player_y + y][player_x + x] == 8:
+                staat_op_doos = True
             wereld_info[player_y + y][player_x + x] = 'Char'
-            wereld_info[player_y + y + y][player_x + x + x] = 2
-        if wereld_info[player_y + y + y][player_x + x + x] == 6:
-            wereld_info[player_y][player_x] = 0
-            wereld_info[player_y + y][player_x + x] = 'Char'
-            wereld_info[player_y + y + y][player_x + x + x] = 7
+            if wereld_info[player_y + y + y][player_x + x + x] == 6:
+                wereld_info[player_y + y + y][player_x + x + x] = 7
+            elif wereld_info[player_y + y + y][player_x + x + x] == 7:
+                wereld_info[player_y + y + y][player_x + x + x] = 8
+            else:
+                wereld_info[player_y + y + y][player_x + x + x] = 2
+
     if wereld_info[player_y + y][player_x + x] == 3:
         if doos_open is False:
             level_nummer -= 1
         else:
             level_nummer = random.randint(0, 6)
+
     if wereld_info[player_y + y][player_x + x] == 4:
         if doos_open is False:
             level_nummer += 1
         else:
             level_nummer = random.randint(0, 6)
+
     if wereld_info[player_y + y][player_x + x] == 5:
         wereld_info[player_y + y][player_x + x] = 0
-        doos_open = True
         open_doos()
+        doos_open = True
+
     if wereld_info[player_y + y][player_x + x] == 7:
         if staat_op_doos is True:
             wereld_info[player_y][player_x] = 7
@@ -300,10 +309,17 @@ def beweeg(x, y):
 
 def open_doos():
     global grond
+    global terug
+    global character
 
-    pygame.mixer.music.load(os.path.join('rescources', 'muziek', 'achtergrond_2rev.mp3'))
-    pygame.mixer.music.play()
-    grond = grond = pygame.image.load(os.path.join('rescources', 'objecten', 'grond_bloed.png'))
+    if doos_open is True:
+        terug = True
+
+    else:
+        pygame.mixer.music.load(os.path.join('rescources', 'muziek', 'achtergrond_2rev.mp3'))
+        pygame.mixer.music.play()
+        grond = grond = pygame.image.load(os.path.join('rescources', 'objecten', 'grond_bloed.png'))
+        character = pygame.image.load(os.path.join('rescources', 'character', 'character_1_glitched.png'))
 
 
 def teken_tekst(tekst, tekst_kleur, tekst_pos):
@@ -318,9 +334,11 @@ def scherm_updaten():
     if spelen is True:
         Wereld(wereld_info)
         if level_nummer == 0:
-            teken_tekst('beweeg met de pijltjes', rood, (400, 10))
+            teken_tekst('beweeg met de pijltjes', blauw, (400, 10))
         if level_nummer == 1:
-            teken_tekst('druk R om het level te resetten', rood, (380, 10))
+            teken_tekst('druk R om het level te resetten', blauw, (380, 10))
+        if terug is True:
+            teken_tekst('Je kan nu niet terug', rood, (260, 325))
 
     pygame.display.update()
 
