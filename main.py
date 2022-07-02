@@ -20,9 +20,9 @@ FPS = 60
 font = pygame.font.SysFont('script', 25)
 
 # alle variabelen
-tegel_groote = 75
-level_nummer = 0
 aantal_vakken = 9
+tegel_groote = schermBreete//aantal_vakken
+level_nummer = 0
 spelen = True
 doos_open = False
 staat_op_doos = False
@@ -394,8 +394,12 @@ def main():
 
             # checkt of er een toets ingedrukt wordt
             if event.type == pygame.KEYDOWN:
+                # als de game aan staat
                 if spelen is True:
+
+                    # kijkt welke toets word ingedrukt
                     if event.key == pygame.K_LEFT:
+                        # beweegt het karakter
                         beweeg(-1, 0)
 
                     if event.key == pygame.K_RIGHT:
@@ -407,10 +411,8 @@ def main():
                     if event.key == pygame.K_DOWN:
                         beweeg(0, 1)
 
-                    if event.key == pygame.K_SPACE:
-                        level_nummer += 1
-
                     if event.key == pygame.K_r:
+                        # maakt de gekopieerde wereld de echte wereld
                         levels[level_nummer] = copy.deepcopy(wereld_copie)
 
                 if event.key == pygame.K_ESCAPE:
@@ -422,6 +424,7 @@ def main():
 
         wereld_info = levels[level_nummer]
 
+        # kopieert het level
         if level_copie < level_nummer:
             level_copie = level_nummer
             wereld_copie = copy.deepcopy(wereld_info)
