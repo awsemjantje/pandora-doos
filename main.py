@@ -7,7 +7,7 @@ import random
 mixer.init()
 pygame.init()
 
-# bepaald breete en hoogte scherm
+# bepaald breete en hoogte van het scherm
 schermBreete = 675
 schermHoogte = 675
 
@@ -16,10 +16,10 @@ scherm = pygame.display.set_mode((schermBreete, schermHoogte))
 pygame.display.set_caption("Pandora's puzzels")
 FPS = 60
 
-# maakt font
+# bepaald het font
 font = pygame.font.SysFont('script', 25)
 
-# variabelen
+# alle variabelen
 tegel_groote = 75
 level_nummer = 0
 aantal_vakken = 9
@@ -28,6 +28,7 @@ doos_open = False
 staat_op_doos = False
 terug = False
 
+# kleuren
 zwart = (0, 0, 0)
 rood = (255, 0, 0)
 blauw = (0, 255, 0)
@@ -61,17 +62,23 @@ class Wereld:
         # kijkt in de lijst van wereld_info per rij
         rij_aantal = 0
         for rij in info:
-            # kijkt in de lijst vab werekd_info per kolom
+            # kijkt in de lijst vab wereld_info per kolom
             kolom_aantal = 0
             for tegel in rij:
 
+                # check welke tegel het is
                 if tegel == 'Char':
+                    # maakt de foto de groote van een tegel
                     foto = pygame.transform.scale(character, (tegel_groote, tegel_groote))
+                    # de foto krijgt een vierkant die geplaatst kan worden
                     foto_rect = foto.get_rect()
+                    # is voor het verplaatsen van het karakter
                     player_x = kolom_aantal
                     player_y = rij_aantal
+                    # plaatst de foto
                     foto_rect.x = player_x * tegel_groote
                     foto_rect.y = player_y * tegel_groote
+                    # tekent de foto op het scherm
                     scherm.blit(foto, foto_rect)
 
                 if tegel == 0:
@@ -82,6 +89,7 @@ class Wereld:
                     scherm.blit(foto, foto_rect)
 
                 if tegel == 1:
+                    # deze if's zorgen ervoor dat de muren de goede foto krijgen en goed geroteerd zijn
                     if kolom_aantal == 0 and rij_aantal != 8:
                         foto = pygame.transform.scale(muur_zijkant_r, (tegel_groote, tegel_groote))
                         foto_rect = foto.get_rect()
@@ -158,6 +166,7 @@ class Wereld:
             rij_aantal += 1
 
 
+# een bibliotheek met lijsten dat levels zijn
 levels = {
  0: [
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -244,24 +253,31 @@ levels = {
  ]
 }
 
+# zet het level in de class
 wereld_info = levels[level_nummer]
 wereld = Wereld(wereld_info)
 
 
+# de beweegfunctie
 def beweeg(x, y):
+    # variabelen die de functie veranderd
     global level_nummer
     global doos_open
     global staat_op_doos
 
+    # checkt wat de tegel is waar de speler heen wilt bewegen
     if wereld_info[player_y + y][player_x + x] == 0:
+        # kijkt of de speler op een doos staat
         if staat_op_doos is True:
             wereld_info[player_y][player_x] = 7
         else:
             wereld_info[player_y][player_x] = 0
+        # verplaatst het karakter
         wereld_info[player_y + y][player_x + x] = 'Char'
         staat_op_doos = False
 
     if wereld_info[player_y + y][player_x + x] == 2 or wereld_info[player_y + y][player_x + x] == 8:
+        # checkt of de doos die de speler gaat bewegen bewogen kan worden
         if wereld_info[player_y + y + y][player_x + x + x] == 0 or \
                 wereld_info[player_y + y + y][player_x + x + x] == 7 or \
                 wereld_info[player_y + y + y][player_x + x + x] == 6:
@@ -273,15 +289,21 @@ def beweeg(x, y):
                 wereld_info[player_y][player_x] = 0
             if wereld_info[player_y + y][player_x + x] == 8:
                 staat_op_doos = True
+
             wereld_info[player_y + y][player_x + x] = 'Char'
+
+            # checkt of er een gat is en vult het
             if wereld_info[player_y + y + y][player_x + x + x] == 6:
                 wereld_info[player_y + y + y][player_x + x + x] = 7
+            # checkt of er een gevult gat is en zet een doos erop
             elif wereld_info[player_y + y + y][player_x + x + x] == 7:
                 wereld_info[player_y + y + y][player_x + x + x] = 8
+            # checkt of er een normale tegel is
             else:
                 wereld_info[player_y + y + y][player_x + x + x] = 2
 
     if wereld_info[player_y + y][player_x + x] == 3:
+        # veranderd het level
         if doos_open is False:
             level_nummer -= 1
         else:
@@ -295,6 +317,7 @@ def beweeg(x, y):
 
     if wereld_info[player_y + y][player_x + x] == 5:
         wereld_info[player_y + y][player_x + x] = 0
+        # opent de doos
         open_doos()
         doos_open = True
 
@@ -316,9 +339,12 @@ def open_doos():
         terug = True
 
     else:
+        # verandert de muziek
         pygame.mixer.music.load(os.path.join('rescources', 'muziek', 'achtergrond_2rev.mp3'))
         pygame.mixer.music.play()
+        # verandert de grond
         grond = grond = pygame.image.load(os.path.join('rescources', 'objecten', 'grond_bloed.png'))
+        # verandert het karakter
         character = pygame.image.load(os.path.join('rescources', 'character', 'character_1_glitched.png'))
 
 
@@ -328,11 +354,15 @@ def teken_tekst(tekst, tekst_kleur, tekst_pos):
 
 
 def scherm_updaten():
+    # pauzeert het spel
     if spelen is False:
         scherm.fill(zwart)
 
+    # speelt het spel
     if spelen is True:
+        # update en tekent het level
         Wereld(wereld_info)
+        # tekent het de text
         if level_nummer == 0:
             teken_tekst('beweeg met de pijltjes', blauw, (400, 10))
         if level_nummer == 1:
@@ -348,17 +378,21 @@ def main():
     global level_nummer
     global spelen
 
+    #kopieert de wereld voor de reset knop
     wereld_copie = copy.deepcopy(wereld_info)
     level_copie = level_nummer
 
     clock = pygame.time.Clock()
+    # houd het spel aan
     aan = True
     while aan:
         clock.tick(FPS)
         for event in pygame.event.get():
+            # zet het spel uit als er op het kruisje wordt gedrukt
             if event.type == pygame.QUIT:
                 aan = False
 
+            # checkt of er een toets ingedrukt wordt
             if event.type == pygame.KEYDOWN:
                 if spelen is True:
                     if event.key == pygame.K_LEFT:
